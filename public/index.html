@@ -46,43 +46,21 @@
       var x = i % data2.cols;
       var y = Math.floor(i / data2.cols)
       var tile = data2.layers[data3][i]
-      // console.log(tile)
+
       if (tile !== 0) { // 0 => empty tile
         ctx.drawImage(
-            Loader.getImage('tiles'), // image
-            (tile - 1) * data2.tsize, // source x from image
-            0, // source y from image
-            data2.tsize, // source width
-            data2.tsize, // source height
-            x * data2.tsize,  // target x
-            y * data2.tsize, // target y
-            data2.tsize, // target width
-            data2.tsize // target height
+            Loader.getImage('tiles'),
+            (tile - 1) * data2.tsize,
+            0,
+            data2.tsize,
+            data2.tsize,
+            x * data2.tsize,
+            y * data2.tsize,
+            data2.tsize,
+            data2.tsize
         );
       }
     }
-
-    // for (var c = 0; c < data2.cols; c++) {
-    //   for (var r = 0; r < data2.rows; r++) {
-    //     var tile = data2.layers[data3][r * data2.cols + c];
-    //
-    //     if (tile !== 0) { // 0 => empty tile
-    //       ctx.drawImage(
-    //           Loader.getImage('tiles'), // image
-    //           (tile - 1) * data2.tsize, // source x
-    //           0, // source y
-    //           data2.tsize, // source width
-    //           data2.tsize, // source height
-    //           c * data2.tsize,  // target x
-    //           r * data2.tsize, // target y
-    //           data2.tsize, // target width
-    //           data2.tsize // target height
-    //       );
-    //     }
-    //   }
-    // }
-
-
 
     for (var i = 0; i < data1.length; i++) {
       ctx.fillStyle = "steelblue";
