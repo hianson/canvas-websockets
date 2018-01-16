@@ -1,0 +1,102 @@
+<!-- Client -->
+<canvas id="ctx" width="600" height="600" style="border: 1px solid black;"></canvas>
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script>
+  var socket = io();
+  var ctx = document.getElementById("ctx").getContext("2d");
+
+  var Loader = {
+    images: {}
+  };
+
+  // function sends assets to client
+  Loader.loadImage = function(key, src) {
+    var img = new Image();
+
+    var d = new Promise(function(resolve, reject) {
+      img.onload = function() {
+        this.images[key] = img;
+        resolve(img);
+      }.bind(this);
+
+      // send error to console if asset can't be loaded
+      img.onerror = function() {
+        reject('Could not load image: ' + src);
+      };
+    }.bind(this));
+
+    img.src = src;
+    return d;
+  };
+
+  Loader.getImage = function(key) {
+    return (key in this.images) ? this.images[key] : null;
+  };
+
+  // a new Image object is created for each loaded image
+  // loadImage stores assets in Loader's 'images' property so they can be retrieved with getImage when needed
+  Loader.loadImage('tiles', 'public/assets/tiles.png'),
+  Loader.loadImage('character', 'public/assets/character.png')
+
+
+  socket.on('drawMap', function(data, layer) {
+    for (var c = 0; c < data.cols; c++) {
+      for (var r = 0; r < data.rows; r++) {
+        var tile = data.layers[layer][r * data.cols + c];
+
+        if (tile !== 0) { // 0 => empty tile
+          ctx.drawImage(
+              Loader.getImage('tiles'), // image
+              (tile - 1) * data.tsize, // source x
+              0, // source y
+              data.tsize, // source width
+              data.tsize, // source height
+              c * data.tsize,  // target x
+              r * data.tsize, // target y
+              data.tsize, // target width
+              data.tsize // target height
+          );
+        }
+      }
+    }
+
+
+
+  })
+
+  socket.on('newPosition', function(pack) {
+    // ctx.clearRect(0, 0, 500, 500);
+    for (var i = 0; i < pack.length; i++) {
+      ctx.fillStyle = "steelblue";
+      ctx.fillRect(pack[i].x, pack[i].y, 10, 10)
+    }
+  })
+
+
+
+    document.onkeydown = function(event) {
+      if (event.keyCode === 68) {
+        socket.emit('keyPress', {inputId: 'right', state: true});
+      } else if (event.keyCode === 83) {
+        socket.emit('keyPress', {inputId: 'down', state: true});
+      } else if (event.keyCode === 65) {
+        socket.emit('keyPress', {inputId: 'left', state: true});
+      } else if (event.keyCode === 87) {
+        socket.emit('keyPress', {inputId: 'up', state: true});
+      }
+    }
+
+    document.onkeyup = function(event) {
+      if (event.keyCode === 68) {
+        socket.emit('keyPress', {inputId: 'right', state: false});
+      } else if (event.keyCode === 83) {
+        socket.emit('keyPress', {inputId: 'down', state: false});
+      } else if (event.keyCode === 65) {
+        socket.emit('keyPress', {inputId: 'left', state: false});
+      } else if (event.keyCode === 87) {
+        socket.emit('keyPress', {inputId: 'up', state: false});
+      }
+    }
+
+
+</script>
