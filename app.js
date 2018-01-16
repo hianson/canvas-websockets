@@ -125,7 +125,5 @@ setInterval(function() {
   for (var i in SOCKET_LIST) {
     var socket = SOCKET_LIST[i]
     socket.emit('update', playerPack, map, 0)
-    // socket.emit('drawMap', map, 1)
-    // socket.emit('newPosition', playerPack)
   }
 }, 1000/25)
