@@ -1,5 +1,5 @@
 <!-- Client -->
-<canvas id="ctx" width="600" height="600" style="border: 1px solid black;"></canvas>
+<canvas id="ctx" width="500" height="500" style="border: 1px solid black;"></canvas>
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script>
   var socket = io();
@@ -39,36 +39,29 @@
   Loader.loadImage('character', 'public/assets/character.png')
 
 
-  socket.on('drawMap', function(data, layer) {
-    for (var c = 0; c < data.cols; c++) {
-      for (var r = 0; r < data.rows; r++) {
-        var tile = data.layers[layer][r * data.cols + c];
+  socket.on('update', function(data1, data2, layer) {
+    for (var c = 0; c < data2.cols; c++) {
+      for (var r = 0; r < data2.rows; r++) {
+        var tile = data2.layers[layer][r * data2.cols + c];
 
         if (tile !== 0) { // 0 => empty tile
           ctx.drawImage(
               Loader.getImage('tiles'), // image
-              (tile - 1) * data.tsize, // source x
+              (tile - 1) * data2.tsize, // source x
               0, // source y
-              data.tsize, // source width
-              data.tsize, // source height
-              c * data.tsize,  // target x
-              r * data.tsize, // target y
-              data.tsize, // target width
-              data.tsize // target height
+              data2.tsize, // source width
+              data2.tsize, // source height
+              c * data2.tsize,  // target x
+              r * data2.tsize, // target y
+              data2.tsize, // target width
+              data2.tsize // target height
           );
         }
       }
     }
-
-
-
-  })
-
-  socket.on('newPosition', function(pack) {
-    // ctx.clearRect(0, 0, 500, 500);
-    for (var i = 0; i < pack.length; i++) {
+    for (var i = 0; i < data1.length; i++) {
       ctx.fillStyle = "steelblue";
-      ctx.fillRect(pack[i].x, pack[i].y, 10, 10)
+      ctx.fillRect(data1[i].x, data1[i].y, 10, 10)
     }
   })
 

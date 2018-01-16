@@ -109,13 +109,13 @@ io.sockets.on('connection', function(socket) {
 
 // loop thru every socket in socket list to send packets to each connection (rather than to each player in player list)
 setInterval(function() {
-  var pack = [];
+  var playerPack = [];
   // for every socket (player) in the SOCKET_LIST:
     // changes player's positions and store as package so we can send new positions to all clients
   for (var i in PLAYER_LIST) {
     var player = PLAYER_LIST[i]
     player.updatePosition();
-    pack.push({
+    playerPack.push({
       x: player.x,
       y: player.y
     })
@@ -124,8 +124,8 @@ setInterval(function() {
   // loop thru and send package to all clients to update their view with map and all player's new positions.
   for (var i in SOCKET_LIST) {
     var socket = SOCKET_LIST[i]
-    socket.emit('drawMap', map, 0)
+    socket.emit('update', playerPack, map, 0)
     // socket.emit('drawMap', map, 1)
-    socket.emit('newPosition', pack)
+    // socket.emit('newPosition', playerPack)
   }
 }, 1000/25)
