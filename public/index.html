@@ -72,13 +72,13 @@
         img.height/2,
         img.width/3,
         img.height/4,
-        data1[i].x,
-        data1[i].y,
-        60,
-        96
+        data1[i].x - img.width/2,
+        data1[i].y - img.height/2,
+        60 * 1.2,
+        96 * 1.2
       )
-      // ctx.fillStyle = "steelblue";
-      // ctx.fillRect(data1[i].x, data1[i].y, 10, 10)
+      ctx.fillStyle = "steelblue";
+      ctx.fillRect(data1[i].x, data1[i].y, 10, 10)
     }
   })
 

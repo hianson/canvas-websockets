@@ -54,7 +54,8 @@ var Player = function(id) {
     pressingLeft: false,
     pressingUp: false,
     pressingDown: false,
-    maxSpd: 10
+    maxSpd: 10,
+    lookDirection: 0
   }
   self.updatePosition = function() {
     if (self.pressingRight) {
@@ -85,6 +86,7 @@ io.sockets.on('connection', function(socket) {
   socket.on('keyPress', function(data) {
     if (data.inputId === 'left') {
       player.pressingLeft = data.state;
+      // change player lookDirection here
     } else if (data.inputId === 'right') {
       player.pressingRight = data.state;
     } else if (data.inputId === 'up') {
