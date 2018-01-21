@@ -1,9 +1,10 @@
 <!-- Client -->
-<canvas id="ctx" width="500" height="500" style="border: 1px solid black;"></canvas>
+<canvas id="ctx" width="512" height="512" style="border: 1px solid black;"></canvas>
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script>
   var socket = io();
-  var ctx = document.getElementById("ctx").getContext("2d");
+  var canvas = document.getElementById("ctx") //for clearing canvas
+  var ctx = canvas.getContext("2d");
 
   var Loader = {
     images: {}
@@ -35,12 +36,13 @@
 
   // a new Image object is created for each loaded image
   // loadImage stores assets in Loader's 'images' property so they can be retrieved with getImage when needed
-  Loader.loadImage('tiles', 'public/assets/tiles.png'),
+  Loader.loadImage('hm-tiles', 'public/assets/hm-tiles.png'),
   Loader.loadImage('character', 'public/assets/character.png')
+  Loader.loadImage('jack', 'public/assets/jack.png')
 
 
   socket.on('update', function(data1, data2, data3) {
-    ctx.clearRect(0, 0, 512, 512);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (var i = 0; i < data2.layers[data3].length; i++) {
       var x = i % data2.cols;
@@ -49,22 +51,34 @@
 
       if (tile !== 0) { // 0 => empty tile
         ctx.drawImage(
-            Loader.getImage('tiles'),
+            Loader.getImage('hm-tiles'),
             (tile - 1) * data2.tsize,
             0,
             data2.tsize,
             data2.tsize,
-            x * data2.tsize,
-            y * data2.tsize,
-            data2.tsize,
-            data2.tsize
+            x * data2.tsize * 4,
+            y * data2.tsize * 4,
+            data2.tsize * 4,
+            data2.tsize * 4
         );
       }
     }
 
     for (var i = 0; i < data1.length; i++) {
-      ctx.fillStyle = "steelblue";
-      ctx.fillRect(data1[i].x, data1[i].y, 10, 10)
+      var img = Loader.getImage('jack')
+      ctx.drawImage(
+        img,
+        img.width/3,
+        img.height/2,
+        img.width/3,
+        img.height/4,
+        data1[i].x,
+        data1[i].y,
+        60,
+        96
+      )
+      // ctx.fillStyle = "steelblue";
+      // ctx.fillRect(data1[i].x, data1[i].y, 10, 10)
     }
   })
 
@@ -93,6 +107,4 @@
         socket.emit('keyPress', {inputId: 'up', state: false});
       }
     }
-
-
 </script>

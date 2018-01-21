@@ -20,16 +20,16 @@ var io = require('socket.io')(serv, {});
 var map = {
     cols: 8,
     rows: 8,
-    tsize: 64,
+    tsize: 16,
     layers: [[
-        3, 3, 3, 3, 3, 3, 3, 3,
-        3, 1, 1, 1, 1, 1, 1, 3,
-        3, 1, 1, 1, 2, 2, 1, 3,
-        3, 1, 1, 2, 2, 1, 1, 3,
-        3, 1, 1, 2, 2, 1, 1, 3,
-        3, 1, 1, 1, 2, 1, 1, 3,
-        3, 1, 1, 1, 2, 1, 1, 3,
-        3, 3, 3, 1, 2, 3, 3, 3
+        9, 9, 9, 9, 9, 9, 9, 9,
+        9, 1, 1, 1, 1, 1, 1, 9,
+        9, 1, 2, 2, 2, 1, 1, 9,
+        9, 1, 2, 2, 2, 1, 1, 9,
+        9, 1, 2, 1, 2, 1, 1, 9,
+        9, 1, 1, 1, 1, 1, 1, 9,
+        9, 1, 1, 1, 1, 1, 1, 9,
+        9, 9, 9, 1, 1, 9, 9, 9
     ], [
         4, 3, 3, 3, 3, 3, 3, 4,
         4, 0, 0, 0, 0, 0, 0, 4,
@@ -47,8 +47,8 @@ var map = {
 
 var Player = function(id) {
   var self = {
-    x: 250,
-    y: 250,
+    x: 230,
+    y: 380,
     id: id,
     pressingRight: false,
     pressingLeft: false,
@@ -81,10 +81,6 @@ io.sockets.on('connection', function(socket) {
   PLAYER_LIST[socket.id] = player;
 
   console.log('Connection made.')
-
-  // draw background first, and then foregruond items on top
-  // socket.emit('drawMap', map, 0)
-  // socket.emit('drawMap', map, 1)
 
   socket.on('keyPress', function(data) {
     if (data.inputId === 'left') {
