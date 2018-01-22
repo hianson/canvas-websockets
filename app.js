@@ -45,44 +45,74 @@ var map = {
     }
 };
 
-var Player = function(id) {
-  var self = {
-    x: 230,
-    y: 380,
-    id: id,
-    pressingRight: false,
-    pressingLeft: false,
-    pressingUp: false,
-    pressingDown: false,
-    maxSpd: 10,
-    lookDirection: 0
-  }
-  self.updatePosition = function() {
-    if (self.pressingRight) {
-      self.x += self.maxSpd;
-    }
-    if (self.pressingLeft) {
-      self.x -= self.maxSpd;
-    }
-    if (self.pressingUp) {
-      self.y -= self.maxSpd;
-    }
-    if (self.pressingDown) {
-      self.y += self.maxSpd;
-    }
-  }
-  return self;
+function Player(id) {
+  this.x = 230;
+  this.y = 380;
+  this.id = id;
+  this.pressingRight = false;
+  this.pressingLeft = false;
+  this.pressingUp = false;
+  this.pressingDown = false;
+  this.maxSpd = 10;
+  this.lookDirection = 0;
 }
+
+Player.prototype.updatePosition = function() {
+  if (this.pressingRight) {
+    this.x += this.maxSpd;
+  }
+  if (this.pressingLeft) {
+    this.x -= this.maxSpd;
+  }
+  if (this.pressingUp) {
+    this.y -= this.maxSpd;
+  }
+  if (this.pressingDown) {
+    this.y += this.maxSpd;
+  }
+}
+
+// var Player = function(id) {
+//   var self = {
+//     x: 230,
+//     y: 380,
+//     id: id,
+//     pressingRight: false,
+//     pressingLeft: false,
+//     pressingUp: false,
+//     pressingDown: false,
+//     maxSpd: 10,
+//     lookDirection: 0
+//   }
+//   self.updatePosition = function() {
+//     if (self.pressingRight) {
+//       self.x += self.maxSpd;
+//     }
+//     if (self.pressingLeft) {
+//       self.x -= self.maxSpd;
+//     }
+//     if (self.pressingUp) {
+//       self.y -= self.maxSpd;
+//     }
+//     if (self.pressingDown) {
+//       self.y += self.maxSpd;
+//     }
+//   }
+//   return self;
+// }
 
 // on all sockets, listen for connections
 io.sockets.on('connection', function(socket) {
   socket.id = Math.random();
-  var player = Player(socket.id);
+  // create a new player using random socket.id:
+  var player = new Player(socket.id);
   SOCKET_LIST[socket.id] = socket;
+  // insert created player into PLAYER_LIST with socket.id key
   PLAYER_LIST[socket.id] = player;
 
   console.log('Connection made.')
 
+  // while player connected, listen for these events:
   socket.on('keyPress', function(data) {
     if (data.inputId === 'left') {
       player.pressingLeft = data.state;
