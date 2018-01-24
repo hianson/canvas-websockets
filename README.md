@@ -4,12 +4,12 @@ This is a simple implementation of Express, WebSockets (Socket.io), and the HTML
 
 All you got to do to run dis:
 
-1. clone repo
-2. navigate to repo in terminal
-3. start server by running:
+1. clone and navigate to repo in terminal
+2. start server by running:
 ```{r, engine='bash', code_block_name}
 $ node app.js
 ```
+3. access app through browser with address http://localhost:3000/
 
 <p align="center">
   <img src="https://media.giphy.com/media/l49JUYtJCpwfnUP3G/giphy.gif"><br>
