@@ -11,4 +11,7 @@ All you got to do to run dis:
 $ node app.js
 ```
 
-<p align="center"><img src="https://media.giphy.com/media/l49JUYtJCpwfnUP3G/giphy.gif"></p>
+<p align="center">
+  <img src="https://media.giphy.com/media/l49JUYtJCpwfnUP3G/giphy.gif"><br>
+  fullscreen gif: https://giphy.com/gifs/l49JUYtJCpwfnUP3G/fullscreen
+</p>
