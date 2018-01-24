@@ -1,5 +1,4 @@
 // Server
-
 var express = require('express');
 var app = express();
 var serv = require('http').Server(app);
@@ -72,35 +71,6 @@ Player.prototype.updatePosition = function() {
   }
 }
 
-// var Player = function(id) {
-//   var self = {
-//     x: 230,
-//     y: 380,
-//     id: id,
-//     pressingRight: false,
-//     pressingLeft: false,
-//     pressingUp: false,
-//     pressingDown: false,
-//     maxSpd: 10,
-//     lookDirection: 0
-//   }
-//   self.updatePosition = function() {
-//     if (self.pressingRight) {
-//       self.x += self.maxSpd;
-//     }
-//     if (self.pressingLeft) {
-//       self.x -= self.maxSpd;
-//     }
-//     if (self.pressingUp) {
-//       self.y -= self.maxSpd;
-//     }
-//     if (self.pressingDown) {
-//       self.y += self.maxSpd;
-//     }
-//   }
-//   return self;
-// }
-
 // on all sockets, listen for connections
 io.sockets.on('connection', function(socket) {
   socket.id = Math.random();
@@ -110,7 +80,7 @@ io.sockets.on('connection', function(socket) {
   // insert created player into PLAYER_LIST with socket.id key
   PLAYER_LIST[socket.id] = player;
 
-  console.log('Connection made.')
+  console.log('Connection made:', socket.id)
 
   // while player connected, listen for these events:
   socket.on('keyPress', function(data) {
