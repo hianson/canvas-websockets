@@ -1,8 +1,12 @@
 # JS WebSockets
 
-This is a simple implementation of Express, WebSockets (Socket.io), and the HTML canvas. Static files are served via Express to each client to draw assets onto each client's canvas. Position and movement of sprites on the canvas are updated and stored server-side. The server constantly emits a function to re-draw the canvas with that data, at some fps. Client listens for WASD keyPresses  and emits to the server to update 'player' data.
+This is a simple implementation of Express, WebSockets (Socket.io), and the HTML canvas. 
 
-All you got to do to run dis:
+Express serves necessary static files to each client to draw assets onto each client's canvas. Positions and movement functions of sprites on the canvas are updated and stored server-side. The server constantly emits a function to re-draw the canvas with that data, at some fps. Client listens for WASD keyPresses  and emits to the server to update 'player' data.
+
+This implementation takes into account some basic game dev architecture in that basic cheating prevention is handled by making all player interactions server-sided, because cheating is bad.
+
+To run this demo:
 
 1. clone and navigate to repo in terminal
 2. start server by running:
